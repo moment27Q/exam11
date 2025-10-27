@@ -53,7 +53,40 @@ public class TypeServiceTest {
         assertEquals(ACTIVE, newTypeDTO.getActive());
         System.out.println(" Prueba crear tipo exitosa");
     }
+    
+ @Test
+    public void testFindTypeById() {
 
+        String TYPE_NAME = "cat";
+        String DESCRIPTION = "Domestic feline";
+        Boolean ACTIVE = true;
+        String SIZE_CATEGORY = "medium";
+        Integer AVERAGE_LIFESPAN = 12;
+        String CARE_LEVEL = "easy";
+
+        TypeDTO typeDTO = TypeDTO.builder()
+                .name(TYPE_NAME)
+                .description(DESCRIPTION)
+                .active(ACTIVE)
+                .sizeCategory(SIZE_CATEGORY)
+                .averageLifespan(AVERAGE_LIFESPAN)
+                .careLevel(CARE_LEVEL)
+                .build();
+
+        TypeDTO createdType = this.typeService.create(typeDTO);
+
+        try {
+            TypeDTO foundType = this.typeService.findById(createdType.getId());
+
+            assertNotNull(foundType);
+            assertEquals(createdType.getId(), foundType.getId());
+            assertEquals(TYPE_NAME, foundType.getName());
+            System.out.println("✓ Prueba buscar tipo exitosa");
+
+        } catch (TypeNotFoundException e) {
+            fail("El tipo no fue encontrado: " + e.getMessage());
+        }
+    }
 
 
 
