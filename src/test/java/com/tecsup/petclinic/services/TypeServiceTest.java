@@ -23,39 +23,45 @@ public class TypeServiceTest {
     @Autowired
     private TypeService typeService;
 
-    
-
     @Test
-    public void testCreateType() {
-        String TYPE_NAME = "fish";
-        String DESCRIPTION = "Aquatic animal";
-        Boolean ACTIVE = true;
-        String SIZE_CATEGORY = "small";
-        Integer AVERAGE_LIFESPAN = 5;
-        String CARE_LEVEL = "medium";
+    public void testUpdateType() {
 
         TypeDTO typeDTO = TypeDTO.builder()
-                .name(TYPE_NAME)
-                .description(DESCRIPTION)
-                .active(ACTIVE)
-                .sizeCategory(SIZE_CATEGORY)
-                .averageLifespan(AVERAGE_LIFESPAN)
-                .careLevel(CARE_LEVEL)
+                .name("cat")
+                .description("Small domestic animal")
+                .active(true)
+                .sizeCategory("small")
+                .averageLifespan(15)
+                .careLevel("low")
                 .build();
 
-        TypeDTO newTypeDTO = this.typeService.create(typeDTO);
+        TypeDTO createdType = this.typeService.create(typeDTO);
 
-        System.out.println("Tipo creado: " + newTypeDTO.getName());
+        String UPDATED_NAME = "big cat";
+        String UPDATED_DESCRIPTION = "Large feline";
+        Boolean UPDATED_ACTIVE = false;
+        String UPDATED_SIZE_CATEGORY = "medium";
+        Integer UPDATED_AVERAGE_LIFESPAN = 20;
+        String UPDATED_CARE_LEVEL = "high";
 
-        assertNotNull(newTypeDTO.getId());
-        assertEquals(TYPE_NAME, newTypeDTO.getName());
-        assertEquals(DESCRIPTION, newTypeDTO.getDescription());
-        assertEquals(ACTIVE, newTypeDTO.getActive());
-        System.out.println("✓ Prueba crear tipo exitosa");
+        createdType.setName(UPDATED_NAME);
+        createdType.setDescription(UPDATED_DESCRIPTION);
+        createdType.setActive(UPDATED_ACTIVE);
+        createdType.setSizeCategory(UPDATED_SIZE_CATEGORY);
+        createdType.setAverageLifespan(UPDATED_AVERAGE_LIFESPAN);
+        createdType.setCareLevel(UPDATED_CARE_LEVEL);
+
+        TypeDTO updatedType = this.typeService.update(createdType);
+
+        assertEquals(UPDATED_NAME, updatedType.getName());
+        assertEquals(UPDATED_DESCRIPTION, updatedType.getDescription());
+        assertEquals(UPDATED_ACTIVE, updatedType.getActive());
+        assertEquals(UPDATED_SIZE_CATEGORY, updatedType.getSizeCategory());
+        assertEquals(UPDATED_AVERAGE_LIFESPAN, updatedType.getAverageLifespan());
+        assertEquals(UPDATED_CARE_LEVEL, updatedType.getCareLevel());
+
+        System.out.println("✓ Prueba actualizar tipo exitosa");
     }
 
+    }
 
-
-
-
-}
